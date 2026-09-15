@@ -16,6 +16,7 @@ import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.annotation.MenuRes
+import androidx.annotation.Px
 import androidx.appcompat.view.SupportMenuInflater
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuItemImpl
@@ -36,7 +37,7 @@ open class CascadePopupMenu @JvmOverloads constructor(
   private val anchor: View,
   private var gravity: Int = Gravity.NO_GRAVITY,
   private val styler: Styler = Styler(),
-  private val fixedWidth: Int = context.dip(196),
+  private var fixedWidth: Int = context.dip(196),
   private val defStyleAttr: Int = android.R.style.Widget_Material_PopupMenu,
   private val backNavigator: CascadeBackNavigator = CascadeBackNavigator()
 ) {
@@ -67,6 +68,18 @@ open class CascadePopupMenu @JvmOverloads constructor(
         showMenu(currentMenu.parentMenu as MenuBuilder, goingForward = false)
       }
     }
+  }
+
+  /**
+   * Sets the fixed width used by the popup menu.
+   *
+   * The value is in pixels. Call this before [show] or [showWithOffsets].
+   * The default width is 196dp.
+   */
+  fun setMenuWidth(@Px width: Int) {
+    require(width > 0) { "Menu width must be greater than 0px." }
+    check(!popup.isShowing) { "Can't change the menu width once the popup is visible." }
+    fixedWidth = width
   }
 
   fun show() {

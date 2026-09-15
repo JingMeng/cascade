@@ -94,6 +94,8 @@ class SampleActivity : AppCompatActivity() {
         }
       }
     }
+    popupMenu.setMenuWidth(180f.dip.toInt())
+
     val topOffset = 6f.dip.toInt()
     val rightOffset = 12f.dip.toInt()
     popupMenu.showWithOffsets(
