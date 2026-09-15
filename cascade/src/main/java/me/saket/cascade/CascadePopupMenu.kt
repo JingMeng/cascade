@@ -24,6 +24,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
+import androidx.core.widget.PopupWindowCompat
 import me.saket.cascade.internal.OverScrollIfContentScrolls
 import me.saket.cascade.internal.dip
 import me.saket.cascade.internal.setCallback
@@ -86,6 +87,24 @@ open class CascadePopupMenu @JvmOverloads constructor(
 
     showMenu(menuBuilder, goingForward = true)
     popup.showAsDropDown(anchor, 0, 0, gravity)
+  }
+
+  /**
+   * Shows this menu with custom positioning while keeping [show]'s original
+   * behavior unchanged.
+   *
+   * [xOffset] and [yOffset] are pixel offsets relative to the anchor. Set
+   * [overlapAnchor] to `false` to show the menu below the anchor instead of
+   * covering it.
+   */
+  fun showWithOffsets(
+    xOffset: Int = 0,
+    yOffset: Int = 0,
+    overlapAnchor: Boolean = true
+  ) {
+    PopupWindowCompat.setOverlapAnchor(popup, overlapAnchor)
+    show()
+    popup.update(anchor, xOffset, yOffset, -1, -1)
   }
 
   /**

@@ -10,6 +10,7 @@ import android.graphics.drawable.RippleDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.SubMenu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,9 @@ import com.getkeepsafe.taptargetview.TapTargetView.Listener
 import me.saket.cascade.CascadePopupMenu
 import me.saket.cascade.add
 import me.saket.cascade.allChildren
+import androidx.core.graphics.toColorInt
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.net.toUri
 
 class SampleActivity : AppCompatActivity() {
 
@@ -43,7 +47,12 @@ class SampleActivity : AppCompatActivity() {
   }
 
   private fun showCascadeMenu(anchor: View) {
-    val popupMenu = CascadePopupMenu(this, anchor, styler = cascadeMenuStyler())
+    val popupMenu = CascadePopupMenu(
+      context = this,
+      anchor = anchor,
+      gravity = Gravity.END,
+      styler = cascadeMenuStyler()
+    )
     popupMenu.menu.apply {
       MenuCompat.setGroupDividerEnabled(this, true)
 
@@ -85,17 +94,25 @@ class SampleActivity : AppCompatActivity() {
         }
       }
     }
-    popupMenu.show()
+    val topOffset = 6f.dip.toInt()
+    val rightOffset = 12f.dip.toInt()
+    popupMenu.showWithOffsets(
+      // Gravity.END aligns the popup's right edge with the anchor's right edge.
+      // A negative x offset moves it left, leaving a right-side gap.
+      xOffset = -rightOffset,
+      yOffset = topOffset,
+      overlapAnchor = false
+    )
   }
 
   private fun cascadeMenuStyler(): CascadePopupMenu.Styler {
     val rippleDrawable = {
-      RippleDrawable(ColorStateList.valueOf(Color.parseColor("#B1DDC6")), null, ColorDrawable(BLACK))
+      RippleDrawable(ColorStateList.valueOf("#B1DDC6".toColorInt()), null, BLACK.toDrawable())
     }
 
     return CascadePopupMenu.Styler(
       background = {
-        RoundedRectDrawable(Color.parseColor("#E0EEE7"), radius = 8f.dip)
+        RoundedRectDrawable("#E0EEE7".toColorInt(), radius = 8f.dip)
       },
       menuTitle = {
         it.titleView.typeface = ResourcesCompat.getFont(this, R.font.work_sans_medium)
@@ -104,7 +121,7 @@ class SampleActivity : AppCompatActivity() {
       menuItem = {
         it.titleView.typeface = ResourcesCompat.getFont(this, R.font.work_sans_medium)
         it.setBackground(rippleDrawable())
-        it.setGroupDividerColor(Color.parseColor("#BED9CF"))
+        it.setGroupDividerColor("#BED9CF".toColorInt())
       }
     )
   }
@@ -116,7 +133,7 @@ class SampleActivity : AppCompatActivity() {
     }
 
   private fun intent(url: String) =
-    Intent(ACTION_VIEW, Uri.parse(url))
+    Intent(ACTION_VIEW, url.toUri())
 
   private fun showcaseMenuButton(toolbar: Toolbar?, menuButton: View) {
     val tapTarget = TapTarget
