@@ -1,0 +1,23 @@
+<resources>
+  <string name="vector_menu_activity_title">VectorMenuProvider demo</string>
+  <string name="vector_menu_demo_description">This Fragment contributes its menu through AndroidX MenuHost/MenuProvider. The Toolbar popup is rendered by Cascade.</string>
+  <string name="vector_menu_status_ready">Open the overflow menu to test the provider callbacks.</string>
+  <string name="vector_menu_toggle_invite">Toggle invite enabled state</string>
+  <string name="vector_menu_status_invite_enabled">Invite is enabled. handlePrepareMenu() updated the item.</string>
+  <string name="vector_menu_status_invite_disabled">Invite is disabled. handlePrepareMenu() updated the item.</string>
+  <string name="vector_menu_invite">Invite people</string>
+  <string name="vector_menu_search">Search</string>
+  <string name="vector_menu_mute_notifications">Mute notifications</string>
+  <string name="vector_menu_unmute_notifications">Unmute notifications</string>
+  <string name="vector_menu_more">More</string>
+  <string name="vector_menu_room_details">Room details</string>
+  <string name="vector_menu_permissions">Permissions</string>
+  <string name="vector_menu_leave">Leave room</string>
+  <string name="vector_menu_action_invite">Invite selected through handleMenuItemSelected().</string>
+  <string name="vector_menu_action_search">Search selected through handleMenuItemSelected().</string>
+  <string name="vector_menu_action_notifications_muted">Notifications muted. The next menu preparation will show “Unmute notifications”.</string>
+  <string name="vector_menu_action_notifications_unmuted">Notifications unmuted. The next menu preparation will show “Mute notifications”.</string>
+  <string name="vector_menu_action_room_details">Room details selected from a Cascade submenu.</string>
+  <string name="vector_menu_action_permissions">Permissions selected from a Cascade submenu.</string>
+  <string name="vector_menu_action_leave">Leave room selected from a Cascade submenu.</string>
+</resources>

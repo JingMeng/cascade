@@ -14,23 +14,27 @@
     <activity
       android:name=".SampleActivity"
       android:exported="true"
-      android:taskAffinity="me.saket.cascade"
-      android:label="Cascade">
+      android:label="Cascade"
+      android:taskAffinity="me.saket.cascade">
+
+    </activity>
+
+    <activity
+      android:name=".ComposeSampleActivity"
+      android:exported="true"
+      android:label="Cascade (compose)"
+      android:taskAffinity="me.saket.cascade.compose">
+
+    </activity>
+    <activity
+      android:name=".vectormenu.screen.VectorMenuProviderSampleActivity"
+      android:exported="true"
+      android:label="@string/vector_menu_activity_title">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
 
-    <activity
-      android:name=".ComposeSampleActivity"
-      android:exported="true"
-      android:taskAffinity="me.saket.cascade.compose"
-      android:label="Cascade (compose)">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
   </application>
 </manifest>
