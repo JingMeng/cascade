@@ -18,6 +18,10 @@ class VectorMenuProviderSampleActivity : AppCompatActivity() {
     setSupportActionBar(toolbar)
     supportActionBar?.setTitle(R.string.vector_menu_activity_title)
 
+    val menuStyler = dingTalkMenuStyler(this)
+    val popupElevation = resources.getDimension(R.dimen.vector_menu_popup_elevation)
+    val shadowMargin = resources.getDimensionPixelSize(R.dimen.vector_menu_popup_shadow_margin)
+
     val topOffset = resources.getDimensionPixelSize(R.dimen.vector_menu_popup_top_offset)
     val endOffset = resources.getDimensionPixelSize(R.dimen.vector_menu_popup_end_offset)
 
@@ -26,10 +30,17 @@ class VectorMenuProviderSampleActivity : AppCompatActivity() {
         CascadePopupMenu(
           context = context,
           anchor = anchor,
-          gravity = Gravity.END
+          gravity = Gravity.END,
+          styler = menuStyler
         ).apply {
           setMenuWidth(
             context.resources.getDimensionPixelSize(R.dimen.vector_menu_popup_width)
+          )
+          setPopupElevation(popupElevation)
+          setPopupMargins(
+            start = shadowMargin,
+            end = shadowMargin,
+            bottom = shadowMargin
           )
         }
       }

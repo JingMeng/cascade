@@ -1,5 +1,18 @@
 <resources>
-  <dimen name="vector_menu_popup_width">180dp</dimen>
+  <dimen name="vector_menu_popup_width">160dp</dimen>
   <dimen name="vector_menu_popup_top_offset">6dp</dimen>
-  <dimen name="vector_menu_popup_end_offset">12dp</dimen>
+  <dimen name="vector_menu_popup_end_offset">8dp</dimen>
+  <dimen name="vector_menu_popup_elevation">8dp</dimen>
+  <dimen name="vector_menu_popup_shadow_margin">8dp</dimen>
+  <dimen name="vector_menu_card_corner_radius">10dp</dimen>
+  <dimen name="vector_menu_item_corner_radius">8dp</dimen>
+  <dimen name="vector_menu_item_horizontal_margin">8dp</dimen>
+  <dimen name="vector_menu_item_vertical_margin">0dp</dimen>
+  <dimen name="vector_menu_item_height">44dp</dimen>
+  <dimen name="vector_menu_list_vertical_padding">4dp</dimen>
+  <dimen name="vector_menu_content_start_padding">16dp</dimen>
+  <dimen name="vector_menu_content_end_padding">14dp</dimen>
+  <dimen name="vector_menu_icon_text_spacing">12dp</dimen>
+  <dimen name="vector_menu_icon_size">20dp</dimen>
+  <dimen name="vector_menu_item_text_size">14sp</dimen>
 </resources>

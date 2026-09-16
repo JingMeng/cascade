@@ -5,32 +5,34 @@
   <group android:id="@+id/menu_vector_primary">
     <item
       android:id="@+id/menu_vector_invite"
+      android:icon="@drawable/ic_menu_invite_20"
       android:title="@string/vector_menu_invite"
       app:showAsAction="never" />
     <item
       android:id="@+id/menu_vector_search"
+      android:icon="@drawable/ic_menu_search_20"
       android:title="@string/vector_menu_search"
-      app:showAsAction="never" />
-    <item
-      android:id="@+id/menu_vector_notifications"
-      android:title="@string/vector_menu_mute_notifications"
       app:showAsAction="never" />
   </group>
 
   <group android:id="@+id/menu_vector_secondary">
     <item
       android:id="@+id/menu_vector_more"
+      android:icon="@drawable/ic_menu_more_20"
       android:title="@string/vector_menu_more"
       app:showAsAction="never">
       <menu>
         <item
           android:id="@+id/menu_vector_room_details"
+          android:icon="@drawable/ic_menu_room_details_20"
           android:title="@string/vector_menu_room_details" />
         <item
           android:id="@+id/menu_vector_permissions"
+          android:icon="@drawable/ic_menu_permissions_20"
           android:title="@string/vector_menu_permissions" />
         <item
           android:id="@+id/menu_vector_leave"
+          android:icon="@drawable/ic_menu_leave_20"
           android:title="@string/vector_menu_leave" />
       </menu>
     </item>

@@ -95,6 +95,39 @@ class MenuItemViewHolder(private val view: ListMenuItemView) : RecyclerView.View
     contentView.updateMargin(top = top, bottom = bottom)
   }
 
+  /**
+   * Sets the outer margins around this menu item view. Unlike [setContentSpacing],
+   * this affects the entire row, including its background and ripple.
+   *
+   * The default is `0dp` on all sides.
+   */
+  fun setItemMargins(
+    @Px start: Int = itemView.marginStart,
+    @Px top: Int = itemView.marginTop,
+    @Px end: Int = itemView.marginEnd,
+    @Px bottom: Int = itemView.marginBottom
+  ) {
+    itemView.updateMargin(
+      top = top,
+      bottom = bottom,
+      start = start,
+      end = end
+    )
+  }
+
+  /**
+   * Sets a fixed height for this menu item's row. This is useful for compact
+   * menus that need a tighter rhythm than the platform's default 48dp row.
+   *
+   * The value is in pixels.
+   */
+  fun setItemHeight(@Px height: Int) {
+    require(height > 0) { "Menu item height must be greater than 0px." }
+    itemView.updateLayoutParams {
+      this.height = height
+    }
+  }
+
   fun setGroupDividerColor(color: Int) {
     // Tinting the divider View is not an option because its drawable has a transparent color.
     groupDividerView.background = (groupDividerView.background as? PaintDrawable ?: PaintDrawable()).apply {

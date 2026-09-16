@@ -5,6 +5,7 @@ package me.saket.cascade
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.Menu
@@ -48,6 +49,7 @@ open class CascadePopupMenu @JvmOverloads constructor(
   private val backstack = Stack<Menu>()
   private val themeAttrs get() = popup.themeAttrs
   private val sharedViewPool = RecycledViewPool()
+  private val menuMargins = Rect(context.dip(4), 0, context.dip(4), context.dip(4))
 
   class Styler(
     /**
@@ -82,6 +84,33 @@ open class CascadePopupMenu @JvmOverloads constructor(
     fixedWidth = width
   }
 
+  /**
+   * Sets the elevation of the popup window, which is used for its drop shadow.
+   * The value is in pixels. Call this before [show] or [showWithOffsets].
+   */
+  fun setPopupElevation(@Px elevation: Float) {
+    check(!popup.isShowing) { "Can't change the menu elevation once the popup is visible." }
+    popup.elevation = elevation
+  }
+
+  /**
+   * Sets the margins around the popup window. These are reserved as transparent
+   * space between the menu and the window edges, and are also needed for the
+   * popup's drop shadow to be visible.
+   *
+   * The value is in pixels. Call this before [show] or [showWithOffsets].
+   * The default is 4dp on the sides and bottom, and 0dp at the top.
+   */
+  fun setPopupMargins(
+    @Px start: Int = menuMargins.left,
+    @Px top: Int = menuMargins.top,
+    @Px end: Int = menuMargins.right,
+    @Px bottom: Int = menuMargins.bottom
+  ) {
+    check(!popup.isShowing) { "Can't change the menu margins once the popup is visible." }
+    menuMargins.set(start, top, end, bottom)
+  }
+
   fun show() {
     // PopupWindow moves the popup to align with the anchor if a fixed width
     // is known before hand. Note to self: If fixedWidth ever needs to be
@@ -90,9 +119,10 @@ open class CascadePopupMenu @JvmOverloads constructor(
     popup.height = WRAP_CONTENT // Doesn't work on API 21 without this.
 
     popup.setMargins(
-      start = context.dip(4),
-      end = context.dip(4),
-      bottom = context.dip(4)
+      start = menuMargins.left,
+      top = menuMargins.top,
+      end = menuMargins.right,
+      bottom = menuMargins.bottom
     )
     styler.background()?.let {
       popup.contentView.background = it

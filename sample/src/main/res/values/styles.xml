@@ -27,4 +27,9 @@
   <style name="ToolbarTitleAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
     <item name="fontFamily">@font/work_sans_bold</item>
   </style>
+  <color name="dingtalk_menu_background">#FFFFFF</color>
+  <color name="dingtalk_menu_text">#191919</color>
+  <color name="dingtalk_menu_icon">#191919</color>
+  <color name="dingtalk_menu_ripple">#14000000</color>
+  <color name="dingtalk_menu_arrow">#8A8A8A</color>
 </resources>
