@@ -18,16 +18,29 @@ class VectorMenuProviderSampleActivity : AppCompatActivity() {
     setSupportActionBar(toolbar)
     supportActionBar?.setTitle(R.string.vector_menu_activity_title)
 
-    toolbar.overrideAllPopupMenus { context, anchor ->
-      CascadePopupMenu(
-        context = context,
-        anchor = anchor,
-        gravity = Gravity.END
-      ).apply {
-        setMenuWidth(
-          context.resources.getDimensionPixelSize(R.dimen.vector_menu_popup_width)
-        )
+    val topOffset = resources.getDimensionPixelSize(R.dimen.vector_menu_popup_top_offset)
+    val endOffset = resources.getDimensionPixelSize(R.dimen.vector_menu_popup_end_offset)
+
+    toolbar.overrideAllPopupMenus(
+      with = { context, anchor ->
+        CascadePopupMenu(
+          context = context,
+          anchor = anchor,
+          gravity = Gravity.END
+        ).apply {
+          setMenuWidth(
+            context.resources.getDimensionPixelSize(R.dimen.vector_menu_popup_width)
+          )
+        }
       }
+    ) {
+      showWithOffsets(
+        // Gravity.END aligns the popup's right edge with the anchor's right edge.
+        // A negative x offset moves it left, leaving a right-side gap.
+        xOffset = -endOffset,
+        yOffset = topOffset,
+        overlapAnchor = false
+      )
     }
 
     if (savedInstanceState == null) {

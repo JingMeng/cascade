@@ -32,3 +32,23 @@ toolbar.overrideAllPopupMenus { context, anchor ->
 // if you're only using the two-param constructor.
 toolbar.overrideAllPopupMenus(with = ::CascadePopupMenu)
 ```
+
+The popup's positioning can be customized without changing the default behavior:
+
+```kotlin
+toolbar.overrideAllPopupMenus(
+  with = { context, anchor ->
+    CascadePopupMenu(
+      context = context,
+      anchor = anchor,
+      gravity = Gravity.END
+    )
+  }
+) {
+  showWithOffsets(
+    xOffset = 0,
+    yOffset = 8,
+    overlapAnchor = false
+  )
+}
+```
