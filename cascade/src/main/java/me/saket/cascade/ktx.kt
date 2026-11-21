@@ -24,7 +24,7 @@ val Menu.allChildren: List<MenuItem>
       for (item in menu) {
         add(item)
         if (item.hasSubMenu()) {
-          addAll(item.subMenu.allChildren)
+          item.subMenu?.let { addAll(it.allChildren) }
         }
       }
     }

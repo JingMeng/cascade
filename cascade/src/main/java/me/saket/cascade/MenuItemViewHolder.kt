@@ -28,13 +28,13 @@ import me.saket.cascade.internal.dip
 import kotlin.LazyThreadSafetyMode.NONE
 
 class MenuItemViewHolder(private val view: ListMenuItemView) : RecyclerView.ViewHolder(view) {
-  val titleView: TextView = view.findViewById(R.id.title)
+  val titleView: TextView = view.findViewById(androidx.appcompat.R.id.title)
   val titleContainerView: ViewGroup = titleView.parent as ViewGroup
 
-  val contentView: View = view.findViewById(R.id.content)
-  val iconView: ImageView by lazy(NONE) { view.findViewById(R.id.icon) }
-  val subMenuArrowView: ImageView = view.findViewById(R.id.submenuarrow)
-  val groupDividerView: View = view.findViewById(R.id.group_divider)      // Shown at the top of this item's layout.
+  val contentView: View = view.findViewById(androidx.appcompat.R.id.content)
+  val iconView: ImageView by lazy(NONE) { view.findViewById(androidx.appcompat.R.id.icon) }
+  val subMenuArrowView: ImageView = view.findViewById(androidx.appcompat.R.id.submenuarrow)
+  val groupDividerView: View = view.findViewById(androidx.appcompat.R.id.group_divider)      // Shown at the top of this item's layout.
 
   lateinit var model: ItemModel
     private set
@@ -108,7 +108,7 @@ class MenuItemViewHolder(private val view: ListMenuItemView) : RecyclerView.View
   companion object {
     fun inflate(parent: ViewGroup): MenuItemViewHolder {
       val inflater = LayoutInflater.from(parent.context).cloneInContext(parent.context)
-      val view = inflater.inflate(R.layout.abc_popup_menu_item_layout, parent, false)
+      val view = inflater.inflate(androidx.appcompat.R.layout.abc_popup_menu_item_layout, parent, false)
       return MenuItemViewHolder(view as ListMenuItemView)
     }
   }

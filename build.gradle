@@ -3,19 +3,17 @@
 buildscript {
   ext.versions = [
     minSdk    : 21,
-    compileSdk: 30
+    compileSdk: 34
   ]
 
   repositories {
     google()
-    jcenter()
+    mavenCentral()
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:4.0.2'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
-    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
-    classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18"
+    classpath 'com.android.tools.build:gradle:8.2.1'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
   }
 }
 
@@ -23,7 +21,6 @@ allprojects {
   repositories {
     google()
     mavenCentral()
-    jcenter()
   }
 }
 

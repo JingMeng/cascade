@@ -63,7 +63,7 @@ class MenuHeaderViewHolder(private val view: View) : RecyclerView.ViewHolder(vie
   companion object {
     fun inflate(parent: ViewGroup): MenuHeaderViewHolder {
       val inflater = LayoutInflater.from(parent.context).cloneInContext(parent.context)
-      val view = inflater.inflate(R.layout.abc_popup_menu_header_item_layout, parent, false)
+      val view = inflater.inflate(androidx.appcompat.R.layout.abc_popup_menu_header_item_layout, parent, false)
       return MenuHeaderViewHolder(view)
     }
   }
