@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-  namespace 'me.saket.cascade.sample'
   compileSdkVersion versions.compileSdk
+  namespace "me.saket.cascade.sample"
 
   defaultConfig {
     applicationId "me.saket.cascade.sample"
-    minSdkVersion versions.minSdk
+    minSdkVersion 23
     targetSdkVersion versions.compileSdk
     versionCode 1
     versionName "1.0"
@@ -15,9 +15,12 @@ android {
 
   buildTypes {
     release {
-      minifyEnabled false
+      minifyEnabled true
     }
   }
+
+  buildFeatures.compose = true
+  composeOptions.kotlinCompilerExtensionVersion = versions.composeCompiler
 
   kotlinOptions {
     jvmTarget = "11"
@@ -35,9 +38,15 @@ android {
 
 dependencies {
   implementation project(':cascade')
-  implementation "androidx.appcompat:appcompat:1.2.0"
-  implementation "androidx.core:core-ktx:1.3.2"
-  implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
-  implementation "androidx.recyclerview:recyclerview:1.1.0"
-  implementation "com.google.android.material:material:1.3.0-rc01"
+  implementation project(':cascade-compose')
+  implementation "androidx.appcompat:appcompat:$versions.appCompat"
+  implementation "androidx.core:core-ktx:$versions.ktx"
+  implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
+  implementation "androidx.recyclerview:recyclerview:$versions.recyclerView"
+
+  implementation "androidx.activity:activity-compose:$versions.activityCompose"
+  implementation "com.google.android.material:material:1.9.0"
+  implementation "androidx.compose.material3:material3:$versions.composeUiMaterial3"
+  implementation "androidx.compose.material:material-icons-extended:$versions.composeUi"
+  implementation "com.canopas.intro-showcase-view:introshowcaseview:1.0.7"
 }

@@ -26,15 +26,16 @@ import androidx.recyclerview.widget.RecyclerView
 import me.saket.cascade.AdapterModel.ItemModel
 import me.saket.cascade.internal.dip
 import kotlin.LazyThreadSafetyMode.NONE
+import androidx.appcompat.R as appcompatR
 
 class MenuItemViewHolder(private val view: ListMenuItemView) : RecyclerView.ViewHolder(view) {
-  val titleView: TextView = view.findViewById(androidx.appcompat.R.id.title)
+  val titleView: TextView = view.findViewById(appcompatR.id.title)
   val titleContainerView: ViewGroup = titleView.parent as ViewGroup
 
-  val contentView: View = view.findViewById(androidx.appcompat.R.id.content)
-  val iconView: ImageView by lazy(NONE) { view.findViewById(androidx.appcompat.R.id.icon) }
-  val subMenuArrowView: ImageView = view.findViewById(androidx.appcompat.R.id.submenuarrow)
-  val groupDividerView: View = view.findViewById(androidx.appcompat.R.id.group_divider)      // Shown at the top of this item's layout.
+  val contentView: View = view.findViewById(appcompatR.id.content)
+  val iconView: ImageView by lazy(NONE) { view.findViewById(appcompatR.id.icon) }
+  val subMenuArrowView: ImageView = view.findViewById(appcompatR.id.submenuarrow)
+  val groupDividerView: View = view.findViewById(appcompatR.id.group_divider)      // Shown at the top of this item's layout.
 
   lateinit var model: ItemModel
     private set
@@ -94,6 +95,39 @@ class MenuItemViewHolder(private val view: ListMenuItemView) : RecyclerView.View
     contentView.updateMargin(top = top, bottom = bottom)
   }
 
+  /**
+   * Sets the outer margins around this menu item view. Unlike [setContentSpacing],
+   * this affects the entire row, including its background and ripple.
+   *
+   * The default is `0dp` on all sides.
+   */
+  fun setItemMargins(
+    @Px start: Int = itemView.marginStart,
+    @Px top: Int = itemView.marginTop,
+    @Px end: Int = itemView.marginEnd,
+    @Px bottom: Int = itemView.marginBottom
+  ) {
+    itemView.updateMargin(
+      top = top,
+      bottom = bottom,
+      start = start,
+      end = end
+    )
+  }
+
+  /**
+   * Sets a fixed height for this menu item's row. This is useful for compact
+   * menus that need a tighter rhythm than the platform's default 48dp row.
+   *
+   * The value is in pixels.
+   */
+  fun setItemHeight(@Px height: Int) {
+    require(height > 0) { "Menu item height must be greater than 0px." }
+    itemView.updateLayoutParams {
+      this.height = height
+    }
+  }
+
   fun setGroupDividerColor(color: Int) {
     // Tinting the divider View is not an option because its drawable has a transparent color.
     groupDividerView.background = (groupDividerView.background as? PaintDrawable ?: PaintDrawable()).apply {
@@ -108,7 +142,7 @@ class MenuItemViewHolder(private val view: ListMenuItemView) : RecyclerView.View
   companion object {
     fun inflate(parent: ViewGroup): MenuItemViewHolder {
       val inflater = LayoutInflater.from(parent.context).cloneInContext(parent.context)
-      val view = inflater.inflate(androidx.appcompat.R.layout.abc_popup_menu_item_layout, parent, false)
+      val view = inflater.inflate(appcompatR.layout.abc_popup_menu_item_layout, parent, false)
       return MenuItemViewHolder(view as ListMenuItemView)
     }
   }

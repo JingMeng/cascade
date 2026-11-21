@@ -27,11 +27,23 @@ import kotlin.LazyThreadSafetyMode.NONE
  * of the native [PopupMenu]. It's safe to call this before any menu is inflated.
  */
 fun Toolbar.overrideOverflowMenu(with: (Context, anchor: View) -> CascadePopupMenu) {
+  overrideOverflowMenu(with) { show() }
+}
+
+/**
+ * Variant of [overrideOverflowMenu] that allows customizing how the popup is shown.
+ *
+ * If no [show] callback is provided, [CascadePopupMenu.show] is used.
+ */
+fun Toolbar.overrideOverflowMenu(
+  with: (Context, anchor: View) -> CascadePopupMenu,
+  show: CascadePopupMenu.() -> Unit
+) {
   onOverflowMenuClick { button ->
     val cascade = with(context, button)
     check(!cascade.popup.isShowing)
     cascade.menuBuilder = this.menu as MenuBuilder
-    cascade.show()
+    show(cascade)
   }
 }
 
@@ -44,11 +56,23 @@ fun Toolbar.overrideOverflowMenu(with: (Context, anchor: View) -> CascadePopupMe
  * before any menu is inflated.
  */
 fun Toolbar.overrideAllPopupMenus(with: (Context, anchor: View) -> CascadePopupMenu) {
+  overrideAllPopupMenus(with) { show() }
+}
+
+/**
+ * Variant of [overrideAllPopupMenus] that allows customizing how the popup is shown.
+ *
+ * If no [show] callback is provided, [CascadePopupMenu.show] is used.
+ */
+fun Toolbar.overrideAllPopupMenus(
+  with: (Context, anchor: View) -> CascadePopupMenu,
+  show: CascadePopupMenu.() -> Unit
+) {
   fun showMenu(anchor: View, menu: MenuBuilder): CascadePopupMenu {
     val cascade = with(context, anchor)
     check(!cascade.popup.isShowing)
     cascade.menuBuilder = menu
-    cascade.show()
+    show(cascade)
     return cascade
   }
 

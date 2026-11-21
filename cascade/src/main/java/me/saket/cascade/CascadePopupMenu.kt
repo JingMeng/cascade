@@ -5,6 +5,7 @@ package me.saket.cascade
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.Menu
@@ -16,6 +17,7 @@ import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.annotation.MenuRes
+import androidx.annotation.Px
 import androidx.appcompat.view.SupportMenuInflater
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuItemImpl
@@ -24,6 +26,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
+import androidx.core.widget.PopupWindowCompat
 import me.saket.cascade.internal.OverScrollIfContentScrolls
 import me.saket.cascade.internal.dip
 import me.saket.cascade.internal.setCallback
@@ -35,7 +38,7 @@ open class CascadePopupMenu @JvmOverloads constructor(
   private val anchor: View,
   private var gravity: Int = Gravity.NO_GRAVITY,
   private val styler: Styler = Styler(),
-  private val fixedWidth: Int = context.dip(196),
+  private var fixedWidth: Int = context.dip(196),
   private val defStyleAttr: Int = android.R.style.Widget_Material_PopupMenu,
   private val backNavigator: CascadeBackNavigator = CascadeBackNavigator()
 ) {
@@ -46,6 +49,7 @@ open class CascadePopupMenu @JvmOverloads constructor(
   private val backstack = Stack<Menu>()
   private val themeAttrs get() = popup.themeAttrs
   private val sharedViewPool = RecycledViewPool()
+  private val menuMargins = Rect(context.dip(4), 0, context.dip(4), context.dip(4))
 
   class Styler(
     /**
@@ -68,6 +72,45 @@ open class CascadePopupMenu @JvmOverloads constructor(
     }
   }
 
+  /**
+   * Sets the fixed width used by the popup menu.
+   *
+   * The value is in pixels. Call this before [show] or [showWithOffsets].
+   * The default width is 196dp.
+   */
+  fun setMenuWidth(@Px width: Int) {
+    require(width > 0) { "Menu width must be greater than 0px." }
+    check(!popup.isShowing) { "Can't change the menu width once the popup is visible." }
+    fixedWidth = width
+  }
+
+  /**
+   * Sets the elevation of the popup window, which is used for its drop shadow.
+   * The value is in pixels. Call this before [show] or [showWithOffsets].
+   */
+  fun setPopupElevation(@Px elevation: Float) {
+    check(!popup.isShowing) { "Can't change the menu elevation once the popup is visible." }
+    popup.elevation = elevation
+  }
+
+  /**
+   * Sets the margins around the popup window. These are reserved as transparent
+   * space between the menu and the window edges, and are also needed for the
+   * popup's drop shadow to be visible.
+   *
+   * The value is in pixels. Call this before [show] or [showWithOffsets].
+   * The default is 4dp on the sides and bottom, and 0dp at the top.
+   */
+  fun setPopupMargins(
+    @Px start: Int = menuMargins.left,
+    @Px top: Int = menuMargins.top,
+    @Px end: Int = menuMargins.right,
+    @Px bottom: Int = menuMargins.bottom
+  ) {
+    check(!popup.isShowing) { "Can't change the menu margins once the popup is visible." }
+    menuMargins.set(start, top, end, bottom)
+  }
+
   fun show() {
     // PopupWindow moves the popup to align with the anchor if a fixed width
     // is known before hand. Note to self: If fixedWidth ever needs to be
@@ -76,9 +119,10 @@ open class CascadePopupMenu @JvmOverloads constructor(
     popup.height = WRAP_CONTENT // Doesn't work on API 21 without this.
 
     popup.setMargins(
-      start = context.dip(4),
-      end = context.dip(4),
-      bottom = context.dip(4)
+      start = menuMargins.left,
+      top = menuMargins.top,
+      end = menuMargins.right,
+      bottom = menuMargins.bottom
     )
     styler.background()?.let {
       popup.contentView.background = it
@@ -86,6 +130,24 @@ open class CascadePopupMenu @JvmOverloads constructor(
 
     showMenu(menuBuilder, goingForward = true)
     popup.showAsDropDown(anchor, 0, 0, gravity)
+  }
+
+  /**
+   * Shows this menu with custom positioning while keeping [show]'s original
+   * behavior unchanged.
+   *
+   * [xOffset] and [yOffset] are pixel offsets relative to the anchor. Set
+   * [overlapAnchor] to `false` to show the menu below the anchor instead of
+   * covering it.
+   */
+  fun showWithOffsets(
+    xOffset: Int = 0,
+    yOffset: Int = 0,
+    overlapAnchor: Boolean = true
+  ) {
+    PopupWindowCompat.setOverlapAnchor(popup, overlapAnchor)
+    show()
+    popup.update(anchor, xOffset, yOffset, -1, -1)
   }
 
   /**

@@ -16,7 +16,6 @@ import androidx.core.view.iterator
 /**
  * Like [Menu.children], but recursively includes items from sub-menus as well.
  */
-@OptIn(ExperimentalStdlibApi::class)
 val Menu.allChildren: List<MenuItem>
   get() {
     val menu = this
@@ -24,7 +23,7 @@ val Menu.allChildren: List<MenuItem>
       for (item in menu) {
         add(item)
         if (item.hasSubMenu()) {
-          item.subMenu?.let { addAll(it.allChildren) }
+          addAll(item.subMenu!!.allChildren)
         }
       }
     }
@@ -34,18 +33,30 @@ fun Menu.add(
   title: CharSequence,
   itemId: Int = Menu.NONE,
   groupId: Int = Menu.NONE,
-  order: Int = Menu.NONE
-): MenuItem {
-  return add(groupId, itemId, order, title)
+  order: Int = Menu.NONE,
+  onClick: ((MenuItem) -> Unit)? = null
+): MenuItem = add(groupId, itemId, order, title).apply {
+  if (onClick != null) {
+    setOnMenuItemClickListener {
+      onClick(it)
+      true
+    }
+  }
 }
 
 fun Menu.add(
   @StringRes titleRes: Int,
   itemId: Int = Menu.NONE,
   groupId: Int = Menu.NONE,
-  order: Int = Menu.NONE
-): MenuItem {
-  return add(groupId, itemId, order, titleRes)
+  order: Int = Menu.NONE,
+  onClick: ((MenuItem) -> Unit)? = null
+): MenuItem = add(groupId, itemId, order, titleRes).apply {
+  if (onClick != null) {
+    setOnMenuItemClickListener {
+      onClick(it)
+      true
+    }
+  }
 }
 
 fun Menu.addSubMenu(
